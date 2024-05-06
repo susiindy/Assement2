@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permohonan Informasi</title>
+    <style>
+        /* Style untuk tabel */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        /* Style untuk tombol Hapus */
+        button {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subjek</th>
+                <th>Deskripsi</th>
+                <th>status Deskripsi</th>
+                <th>Tanggal Pengaduan</th>
+                <th>Tanggal Pembaruan</th>
+                <th>Pelapor Nama</th>
+                <th>Pelapor Email</th>
+                <th>Departemen Terkait</th>
+                <th>Catatan</th>
+                <th>Lampiran</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data akan ditambahkan secara dinamis menggunakan JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Membuat panggilan AJAX untuk mengambil data dari server
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "koneksi.php", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Mengubah respons JSON menjadi objek JavaScript
+                var data = JSON.parse(xhr.responseText);
+                // Proses dan tampilkan data ke dalam tabel
+                var table = document.getElementById("data-table");
+                for (var i = 0; i < data.length; i++) {
+                    var row = table.insertRow();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+                    var cell7 = row.insertCell(6);
+                    var cell8 = row.insertCell(7);
+                    var cell9 = row.insertCell(8);
+                    var cell10 = row.insertCell(9);
+                    var cell11 = row.insertCell(10);
+                    var cell12 = row.insertCell(11);
+                    cell1.innerHTML = data[i].id;
+                    cell2.innerHTML = data[i].subjek;
+                    cell3.innerHTML = data[i].deskripsi;
+                    cell4.innerHTML = data[i].status_deskripsi;
+                    cell5.innerHTML = data[i].tanggal_pengaduan;
+                    cell6.innerHTML = data[i].tanggal_pembaruan;
+                    cell7.innerHTML = data[i].pelapor_nama;
+                    cell8.innerHTML = data[i].pelapor_email;
+                    cell9.innerHTML = data[i].departemen_terkait;
+                    cell10.innerHTML = data[i].catatan;
+                    cell11.innerHTML = data[i].lampiran;
+                    cell12.innerHTML = '<button onclick="hapusData(' + data[i].id + ')">Hapus</button>';
+                }
+            }
+        };
+        xhr.send();
+
+        // Fungsi untuk menghapus data dengan AJAX
+        function hapusData(id) {
+            if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "koneksi.php?id=" + id, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        // Proses respons jika diperlukan
+                        // Contoh: memperbarui tampilan setelah penghapusan data
+                        // Misalnya, reload halaman setelah penghapusan data:
+                        location.reload();
+                    }
+                };
+                xhr.send();
+            }
+        }
+    </script>
+
+</body>
+
+</html>
